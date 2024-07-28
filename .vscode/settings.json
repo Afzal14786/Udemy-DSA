@@ -1,0 +1,7 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "explorer.excludeGitIgnore": true,
+    "files.exclude": {
+        "**/.out": true
+    },
+}
