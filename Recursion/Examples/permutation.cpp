@@ -1,4 +1,6 @@
 #include <iostream>
+#define MAX_ITEMS 100
+#define MAX_SELECT 100
 using namespace std;
 /*
     Permutaion :
@@ -34,6 +36,30 @@ int permutation (int n, int r) {
 
     return _nfact / _n_r_fact;
 }
+
+
+/* Memoizatio Method For Permutation Function. */
+
+/*
+
+Pending To Solve : 
+
+int gloab[MAX_ITEMS]
+
+int permutation_memo(int n, int r) {
+    if (r == 0 || n == r) {
+        gloab[n] = 1;
+        return 1;
+    } else {
+        if (gloab[n] == -1) {
+            gloab[n-1]
+        }
+    }
+}
+
+
+*/
+
 int main() {
 
     cout << permutation(5,3) << endl;
