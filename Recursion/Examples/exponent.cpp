@@ -28,14 +28,15 @@ int power(int m, int n) {
 
 // using loop //
 // check it out latter -> Must solve it latter dont forget it .
-// int power_loop(int m, int n) {
+/* Yes i think i got the solution on : Aug 2, 2024*/
+int power_loop(int m, int n) {
+    int ans = 1;
+    for (int i = 0; i < n; ++i) {
+        ans *= m;
+    }
 
-//     int ans = 1;
-//     for (int i = 1; i <= n; ++i) {
-//         ans = m*m;
-//     }
-//     return ans;
-// }
+    return ans;
+}
 int main() {
 
     int num, power;
