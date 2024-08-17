@@ -54,6 +54,20 @@ void insert_value(Array_Operations &ar_op, int idx, int value) {
     }
 }
 
+/**
+ * Insert in a sorted array
+ */
+
+void inser_sortedArray(struct Array_Operations *arr, int value) {
+    int i = arr->length-1;
+    while (i >= 0 && arr->A[i] > value) {
+        arr->A[i+1] = arr->A[i];
+        i--;
+    }
+    arr->A[i+1] = value;
+    arr->length++;
+}
+
 int main() {
 
     int index;
@@ -77,7 +91,7 @@ int main() {
     cout << "Enter The Value : ";
     cin >> value;
 
-    insert_value(ar, index, value);
+    inser_sortedArray(&ar,value);
     display(ar);
 
     return 0;
