@@ -46,8 +46,8 @@ void Create (struct Spares_Matrix *sparse) {
 
 void Display (struct Spares_Matrix sparse) {
     int k = 0;
-    for (int i = 1; i <= sparse.row_no; ++i) {
-        for (int j = 1; j <= sparse.col_no; ++j) {
+    for (int i = 0; i < sparse.row_no; ++i) {
+        for (int j = 0; j < sparse.col_no; ++j) {
             if (i == sparse.arr[k].i && j == sparse.arr[k].j) {
                 printf("%d ", sparse.arr[k++].value);
             } else {

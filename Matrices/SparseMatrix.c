@@ -11,13 +11,12 @@ struct SparseMatrix {
     int row;
     int cols;
     int nums;
-
     struct Element* elem;
 };
 
 // Function to create a sparse matrix
 void create(struct SparseMatrix* sparse) {
-    printf("Enter the dimensions:\n");
+    printf("Enter the dimensions (rows and columns):\n");
     scanf("%d %d", &sparse->row, &sparse->cols);
 
     printf("Enter the number of non-zero elements: ");
@@ -32,7 +31,7 @@ void create(struct SparseMatrix* sparse) {
         exit(1);
     }
 
-    printf("Enter the non-zero elements:\n");
+    printf("Enter the non-zero elements (row, col, value):\n");
     for (int i = 0; i < sparse->nums; ++i) {
         scanf("%d %d %d", &sparse->elem[i].i, &sparse->elem[i].j, &sparse->elem[i].value);
     }
@@ -41,9 +40,9 @@ void create(struct SparseMatrix* sparse) {
 // Function to display a sparse matrix
 void Display(struct SparseMatrix sparse) {
     int k = 0;
-    for (int i = 1; i <= sparse.row; i++) {
-        for (int j = 1; j <= sparse.cols; j++) {
-            if (i == sparse.elem[k].i && j == sparse.elem[k].j) {
+    for (int i = 0; i < sparse.row; i++) {
+        for (int j = 0; j < sparse.cols; j++) {
+            if (k < sparse.nums && i == sparse.elem[k].i && j == sparse.elem[k].j) {
                 printf("%d ", sparse.elem[k++].value);
             } else {
                 printf("0 ");
