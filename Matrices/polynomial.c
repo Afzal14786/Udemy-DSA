@@ -21,7 +21,7 @@ void Create(struct Poly *pol) {
     pol->term = (struct Term *)malloc(pol->num * sizeof(struct Term));
     printf("Enter Non-Zero Terms (coefficient and exponent):\n");
     for (int i = 0; i < pol->num; ++i) {
-        printf("Enter Term %d: ", i + 1);
+        printf("Enter (coefficient and exponent) Of %d: ", i + 1);
         scanf("%d %d", &pol->term[i].coff, &pol->term[i].exp);
     }
 }
@@ -72,13 +72,37 @@ struct Poly *Add(struct Poly *p1, struct Poly *p2) {
     return sum;
 }
 
+struct Poly * Multiplay(struct Poly *p1, struct Poly *p2) {
+    struct Poly *mul;
+    mul = (struct Poly *)malloc(sizeof(struct Poly));
+    mul->term = (struct Term *)malloc((p1->num * p2->num) * sizeof(struct Term));
+
+    int k = 0;
+    if (p1->num == 0 || p2->num == 0 ) {
+        printf("Multiplecation Not Possible .\n");
+        return NULL;
+    } else {
+        for (int i = 0; i < p1->num; i++) {
+            for (int j = 0; j < p2->num; j++) {
+                mul->term[k].coff = p1->term[i].coff * p2->term[j].coff;
+                mul->term[k].exp = p1->term[i].exp + p2->term[j].exp;
+                k++;
+            }
+        }
+
+        mul->num = k;
+
+        return mul;
+    }
+}
+
 int main() {
     struct Poly p1, p2, *p3;
     Create(&p1);
     Create(&p2);
 
     // Correctly assign the result of the addition
-    p3 = Add(&p1, &p2);
+    p3 = Multiplay(&p1, &p2);
 
     printf("First Polynomial Is: ");
     Display(p1);

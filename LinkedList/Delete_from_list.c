@@ -32,7 +32,8 @@ int count_length(struct Node *p) {
     return count;
 }
 
-int DELETE(int position) {
+int delete(int position)
+{
     struct Node *current, *tail;
     current = first;
     tail = NULL;
@@ -83,7 +84,7 @@ int main() {
     Create(A,5);
     printf("%d\n", count_length(first));
     Display(first);
-    printf("%d\n", DELETE(3));
+    printf("%d\n", delete(3));
     Display(first);
     
 

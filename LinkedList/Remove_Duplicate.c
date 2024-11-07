@@ -22,16 +22,15 @@ void Create_List(int A[], int n) {
     }
 }
 
-int Remove_Duplicate(struct Node *p) {
+void Remove_Duplicate(struct Node *p) {
     struct Node *current_node, *next_node;
     current_node = first;
     next_node = first->next;
 
-    int ans = -1;
+    
 
     while (next_node != NULL) {
         if (current_node->data == next_node->data) {
-            ans = next_node->data;
             current_node->next = next_node->next;
             free(next_node);
             next_node = current_node->next;
@@ -39,8 +38,6 @@ int Remove_Duplicate(struct Node *p) {
         current_node = next_node;
         next_node = next_node->next;
     }
-
-    return ans;
 }
 
 
@@ -61,7 +58,7 @@ int main() {
     Create_List(A,9);
     printf("Before Removing The Duplicate Element From The List. The List Look's Like :\n");
     Display_List(first);
-    int ans = Remove_Duplicate(first);
+    Remove_Duplicate(first);
 
     printf("After Removing The Duplicate Element From The List. The List Look's Like :\n");
     Display_List(first);
