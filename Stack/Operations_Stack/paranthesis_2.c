@@ -74,8 +74,13 @@ int isBalanced(char *exp) {
 }
 
 int main() {
-    char *exp = "{[(a+b)*(c-d)]}";
-    printf("%d\n", isBalanced(exp));
+    char *exp = "{(a+b) * (b+c})";
+    int ans = isBalanced(exp);
+    if (ans == 1) {
+        printf("Yes It's A Balance Paranthesis.\n");
+    } else {
+        printf("No, Not A Balance Paranthesis.\n");
+    }
 
     return 0;
 }

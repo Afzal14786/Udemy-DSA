@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 class Node {
@@ -6,6 +7,8 @@ class Node {
         int data;
         Node *next;
 };
+
+
 
 class Stack {
     private:
@@ -16,14 +19,23 @@ class Stack {
         }
 
         void push(int value);
+        void charPush(char ch);
         int pop();
+        char charpop();
         int peek(int position);
+        char stack_top();
         int size();
         bool isEmpty();
         void display();
+        bool isParanthesis(string *exp);
+        string * infixToPostfix(string *exp);
+        bool isOperand(char x);
+        int precedance(char x);
 };
 
 /*Implememtation*/
+
+
 
 int Stack::size() {
     int length = 0;
@@ -49,6 +61,7 @@ void Stack::push(int value) {
     }
 }
 
+
 int Stack::pop() {
     int ans = -1;
     
@@ -58,10 +71,11 @@ int Stack::pop() {
         Node *curr = top;
         ans = top->data;
         top = top->next;
-        delete curr;    
+        delete curr;
     }
     return ans;
 }
+
 
 int Stack::peek(int position) {
     int ans = -1;
@@ -107,6 +121,48 @@ bool Stack::isEmpty() {
     }
 }
 
+bool Stack::isParanthesis(string *exp) {
+    int n =  exp->length();
+    for (int i = 0; i < n; ++i) {
+        if (exp->at(i) == '(') {
+            charPush(exp->at(i));
+        } else if (exp->at(i) == '{') {
+            charPush(exp->at(i));
+        } else if (exp->at(i) == '[') {
+            charPush(exp->at(i));
+        }
+        
+        else if (exp->at(i) == ')') {
+            if (isEmpty()) {
+                return false;
+            }
+            pop();
+        }
+        
+        else if (exp->at(i) == '}') {
+            if (isEmpty()) {
+                return false;
+            }
+            pop();
+        }
+
+        else if (exp->at(i) == ']') {
+            if (isEmpty()) {
+                return false;
+            }
+            pop();
+        }
+    }
+
+    if (isEmpty()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
 void Create_Menu() {
     cout << "\n-----Stack Basic Operation's Menu-----\n";
     cout << "1. Push into the stack.\n";
@@ -115,7 +171,8 @@ void Create_Menu() {
     cout << "4. Size of the stack.\n";
     cout << "5. Is stack empty.\n";
     cout << "6. display The Stack.\n";
-    cout << "7. Exit.\n\n";
+    cout << "7. Check The Paranthesis Are Balance Or Not ?\n";
+    cout << "8. Exit.\n\n";
 
     cout << "---Enter Your Choice : ";
 }
@@ -124,8 +181,11 @@ int main() {
 
     Stack st;
     int choice, ans;
+    string expression = "[{(((a+b) * (c-d)))}]";
 
-    while (choice != 7) {
+    
+
+    while (choice != 8) {
         Create_Menu();
         cin >> choice;
 
@@ -179,6 +239,17 @@ int main() {
                 break;
 
             case 7:
+                ans = st.isParanthesis(&expression);
+                
+                if (ans == 1) {
+                    cout << "Expression Is Parenthesis.\n";
+                } else {
+                    cout << "Expression Is Not Parenthesis.\n";
+                }
+
+                break;
+
+            case 8:
                 cout << "\n-----Thanking You-----\n\n";
                 break;
             

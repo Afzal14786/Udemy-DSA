@@ -71,10 +71,7 @@ int peek(int pos) {
         return x;
     } else {
         if (pos == 1) {
-            // temp = top;
-            // x = top->data;
-            // return x;
-            POP();
+            POP();  /* pop out the first node*/
         } else if (pos > 1) {
             temp = top;
             for (int i = 0; i < pos - 1; ++i) {
@@ -90,7 +87,7 @@ int peek(int pos) {
 }
 
 int isFull() {
-    Node *temp = (struct Stack_Node *)malloc(sizeof(struct Stack_Node));  // Use nothrow to avoid exceptions on failure
+    struct Stack_Node *temp = (struct Stack_Node *)malloc(sizeof(struct Stack_Node));  // Use nothrow to avoid exceptions on failure
     if (temp == NULL) {
         return 1;  // Stack is full (memory allocation failed)
     } else {
@@ -123,8 +120,8 @@ int main() {
 
     Display(top);
     printf("Size Of The Stack Is : %d.\n", Stack_Size());
-    // printf("The Poped Elem Is : %d.\n", POP());
-    // Display(top);
+    printf("The Poped Elem Is : %d.\n", POP());
+    Display(top);
     printf("Peek a value from stack at given position : %d.\n", peek(4));
     return 0;
 }

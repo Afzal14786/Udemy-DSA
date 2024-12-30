@@ -4,4 +4,7 @@
     "files.exclude": {
         "**/.out": true
     },
+    "files.associations": {
+        "iostream": "cpp"
+    },
 }
