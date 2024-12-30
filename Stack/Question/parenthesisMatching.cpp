@@ -97,6 +97,41 @@ string infix_postfix(string exp) {
     return ans;
 }
 
+int postfix_evaluation(string postfix) {
+    // take a stack of integers //
+    stack<int> st;
+    int x1, x2, ans;
+
+    for (auto num : postfix) {
+        if (isOperand(num)) {
+            st.push(num - '0');
+        } else {
+            x2 = st.top(); // right hand side number //
+            st.pop();
+            x1 = st.top(); // left hand side number //
+            st.pop();
+
+            switch(num) {
+                case '+' : 
+                    ans = x1 + x2;
+                    break;
+                case '-' :
+                    ans = x1 - x2;
+                    break;
+                case '*' :
+                    ans = x1 * x2;
+                    break;
+                case '/' :
+                    ans = x1 / x2;
+                    break;
+            }
+            st.push(ans);
+        }
+    }
+
+    return st.top();
+}
+
 
 int main() {
 
@@ -107,7 +142,16 @@ int main() {
         cout << "The Expression Is Not Parenthesis.\n";
     }
 
-    string ans = infix_postfix("a+b*(c^d-e)^(f+g*h)-i");
+    string ans = infix_postfix("3*5+6/2-4");
     cout << ans << endl;  // output : ab(c^d*+e)^(f-gh)*+i-
+
+    cout << postfix_evaluation(ans) << endl;
     return 0;
 }
+
+/**
+ * There is some minor mistakes in the above infix to postfix convirsion function
+ * The function cannot ignore the opening and closing brackets, it must ignore the brackates and just convert operand and operators into the postfix .
+ * 
+ * Needs more correction and improvement in this code section 
+ */
