@@ -142,8 +142,8 @@ int main() {
         cout << "The Expression Is Not Parenthesis.\n";
     }
 
-    string ans = infix_postfix("3*5+6/2-4");
-    cout << ans << endl;  // output : ab(c^d*+e)^(f-gh)*+i-
+    string ans = infix_postfix("3+5*6/2-4");
+    cout << ans << endl;  
 
     cout << postfix_evaluation(ans) << endl;
     return 0;
