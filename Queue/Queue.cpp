@@ -1,4 +1,5 @@
 #include <iostream>
+#include <any>
 using namespace std; 
 
 /**
@@ -21,37 +22,42 @@ using namespace std;
          */
 
 // ------------------------------------------------------------------------ //
-
+template <typename T>
 class Node {
     public:
-        int data;
-        Node *next;
+        T data;
+        Node<T> *next;
 };
 
+template <typename T>
 class Queue {
     private:
-        Node *front;
-        Node *rear;
+        Node<T> *front;
+        Node<T> *rear;
     public:
         Queue() {
             front = nullptr;
             rear = nullptr;
         }
-        void enQueue(int data);
-        int deQueue();
+        void enQueue(T data);
+        T deQueue();
         int size();
         bool isFull();
         bool isEmpty();
         void display_queue();
+        T front_data();
+        T rear_data();
 };
 
 /* Inserting Element Into The Queue */
 
-void Queue::enQueue(int data) {
-    Node *temp = new Node;
+template <typename T>
+void Queue<T>::enQueue(T data) {
+
+    Node<T> *temp = new Node<T>;
     // is the queue full //
     if (isFull()) {
-        cout << "Queue Is Full Unable To Perform Insertion Operation.\n";
+        throw std::out_of_range("Queue Is Full .");
     } else {
         // if the queue is not null //
         temp->data = data;
@@ -68,36 +74,33 @@ void Queue::enQueue(int data) {
     }
 }
 
-int Queue :: deQueue() {
-    // creating a temp node //
-    Node *temp = new Node;
-    int x = -1;
-
+template <typename T>
+T Queue<T> :: deQueue() {
     // if the queue is empty //
-    if (front == nullptr) {
-        cout << "The Queue Is Empty, Unable To Perform Deletion At This Moment : ";
-        return x;
-    } else {
-        // assign temp node to front //
-        temp = front;
-        // hold current data //
-        x = front->data;
-        // move front to the next node //
-        front = front->next;
-        // node delete temp node //
-        delete temp;
-    }
+    if (isEmpty()) {
+        throw std::out_of_range("The Queue Is Empty.\n");
+    } 
+    // creating a temp node and asign it to front and store the data in a variable //
+    Node<T> *temp = front;
+    T value = front->data;
+    
+    // move front to the next node //
+    front = front->next;
+    // node delete temp node //
+    delete temp;
 
     // final, return the deleted data //
-    return x;
+    return value;
 }
 
-bool Queue :: isFull() {
+template <typename T>
+bool Queue<T> :: isFull() {
     // creating a temp auxilary node //
     return false;
 }
 
-bool Queue :: isEmpty() {
+template <typename T>
+bool Queue<T> :: isEmpty() {
 
     if (front == nullptr) {
         return true;
@@ -106,9 +109,11 @@ bool Queue :: isEmpty() {
     return false;
 }
 
-int Queue::size() {
+
+template <typename T>
+int Queue<T> ::size() {
     // create temp node //
-    Node *temp = new Node;
+    Node<T> *temp = new Node<T>;
     temp = front;
     int count = 0;
     
@@ -120,13 +125,33 @@ int Queue::size() {
     return count;
 }
 
-void Queue::display_queue() {
+template <typename T>
+T Queue<T> :: front_data() {
+    if (isEmpty()) {
+        throw std::out_of_range("Queue Is Empty.\n");
+    }
+
+    return front->data;
+}
+
+template <typename T>
+T Queue<T> :: rear_data() {
+    if (isEmpty()) {
+        throw std::out_of_range("Queue Is Empty.\n");
+    }
+
+    return rear->data;
+}
+
+
+template <typename T>
+void Queue<T>::display_queue() {
 
     if (isFull()) {
         return;
     }
 
-    Node *temp = front;
+    Node<T> *temp = front;
     while (temp) {
         cout << temp->data << " ";
         temp = temp->next;
@@ -143,21 +168,35 @@ void menu_option() {
     cout << "3. Size Of The Queue .\n";
     cout << "4. Queue Is Full Or Not .\n";
     cout << "5. Queue Is Empty Or Not .\n";
-    cout << "6. Display The Queue : \n";
-    cout << "7. --------- Exit --------- \n\n";
+    cout << "6. Front Data .\n";
+    cout << "7. Rear Data Is .\n";
+    cout << "8. Display The Queue : \n";
+    cout << "9. --------- Exit --------- \n\n";
 
     cout << "Enter Your Choice : ";
 }
 
-int main() {
-    int choice, data, size, ans;
-    Queue q1;
+// void display_variant_variable (std::variant<int, double, string> var)  {
+//     if (auto pval = std::get_if<int>(&var)) {
+//         cout << "Integer : " << *pval << endl;
+//     } else if (auto pval = std::get_if<double>(&var)) {
+//         cout << "Double : " << *pval << endl;
+//     } else if (auto pval = std::get_if<string>(&var)) {
+//         cout << "String : " << *pval << endl;
+//     } else {
+//         cout << "Unknown Type!" << endl;
+//     }
+// }
 
-    while (choice != 7) {
+
+
+int main() {
+    Queue<int> q1;
+    int choice, size, data;
+
+    while (choice != 9) {
         menu_option();
         cin >> choice;
-
-        
 
         switch (choice)
         {
@@ -194,10 +233,18 @@ int main() {
             break;
 
         case 6:
+            cout << "Front Data Is : " << q1.front_data() << endl;
+            break;
+        
+        case 7:
+            cout << "Rear Data Is : " << q1.rear_data() << endl;
+            break;
+
+        case 8:
             cout << "Here Is The Queue : ";
             q1.display_queue();
             break;
-        case 7:
+        case 9:
             cout << "6.\n --------- Thank Your Using Me --------- \n\n";
             return 0;
         default:
