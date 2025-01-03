@@ -61,9 +61,9 @@ int Queue::deQueue() {
 void Queue::display() {
     Node *temp = front;
 
-    while (front) {
-        cout << front->data << " ";
-        front = front->next;
+    while (temp) {
+        cout << temp->data << " ";
+        temp = temp->next;
     }
 
     cout << endl;
