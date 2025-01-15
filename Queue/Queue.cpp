@@ -147,8 +147,8 @@ T Queue<T> :: rear_data() {
 template <typename T>
 void Queue<T>::display_queue() {
 
-    if (isFull()) {
-        return;
+    if (isEmpty()) {
+        throw std::out_of_range("Queue is empty, unable to display the queue.\n");
     }
 
     Node<T> *temp = front;
