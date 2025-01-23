@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stack>
 #include "queue_header.h"
 using namespace std;
 
@@ -13,6 +14,9 @@ public:
     void inorder(Node *p);
     void preorder(Node *p);
     void postorder(Node *p);
+    void iterative_inorder(Node *p);
+    void iterative_preorder(Node *p);
+    void iterative_postorder(Node *p);
 };
 
 void Tree::create_tree() {
@@ -69,11 +73,78 @@ void Tree::inorder(Node *p) {
     }
 }
 
+void Tree::preorder(Node *p) {
+    if (p != nullptr) {
+        cout << p->data << " ";
+        preorder(p->left_child);
+        preorder(p->right_child);
+    }
+}
+
+void Tree::postorder(Node *p) {
+    if (p != nullptr) {
+        postorder(p->left_child);
+        postorder(p->right_child);
+        cout << p->data << " ";
+    }
+}
+
+void Tree::iterative_inorder(Node *p) {
+    stack<Node*> st;
+    while (p != nullptr || !st.empty()) {
+        if (p != nullptr) {
+            st.push(p);
+            p = p->left_child;
+        } else {
+            p = st.top();
+            st.pop();
+            cout << p->data << " ";
+            p = p->right_child;
+        }
+    }
+}
+
+void Tree::iterative_preorder(Node *p) {
+    stack<Node*> st;
+    while (p != nullptr || !st.empty()) {
+        if (p != nullptr) {
+            cout << p->data << " "; // Print the node
+            st.push(p);
+            p = p->left_child;
+        } else {
+            p = st.top();
+            st.pop();
+            p = p->right_child;
+        }
+    }
+}
+void Tree::iterative_postorder(Node *p) {
+    stack<Node*> st;
+    Node* lastVisited = nullptr;
+    
+    while (p != nullptr || !st.empty()) {
+        if (p != nullptr) {
+            st.push(p);
+            p = p->left_child;
+        } else {
+            Node* peekNode = st.top();
+            if (peekNode->right_child != nullptr && lastVisited != peekNode->right_child) {
+                p = peekNode->right_child;
+            } else {
+                cout << peekNode->data << " ";
+                lastVisited = st.top();
+                st.pop();
+            }
+        }
+    }
+}
+
+
 int main() {
     Tree t;
     t.create_tree();
     cout << "Inorder Traversal: ";
-    t.inorder(t.root);
+    t.iterative_postorder(t.root);
     cout << endl;
     return 0;
 }
