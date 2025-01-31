@@ -58,7 +58,7 @@ void swap(int *x, int *y) {
     *x = *y;
     *y = temp;
 }
-binary_search
+
 int lin_imp(struct Array *imp_lin, int key) {
     for (int i = 0; i < imp_lin->len-1; ++i) {
         if (key == imp_lin->arr[i]) {

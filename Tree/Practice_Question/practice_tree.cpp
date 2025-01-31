@@ -17,6 +17,11 @@ public:
     void iterative_inorder(Node *p);
     void iterative_preorder(Node *p);
     void iterative_postorder(Node *p);
+    int count_nodes(Node *p);
+    int height(Node *p);
+    int sum_of_nodes(Node *p);
+    int count_leaf_node(Node *p);
+    int count_non_leaf_node(Node *p);
 };
 
 void Tree::create_tree() {
@@ -118,6 +123,7 @@ void Tree::iterative_preorder(Node *p) {
         }
     }
 }
+
 void Tree::iterative_postorder(Node *p) {
     stack<Node*> st;
     Node* lastVisited = nullptr;
@@ -139,6 +145,134 @@ void Tree::iterative_postorder(Node *p) {
     }
 }
 
+int Tree::count_nodes(Node *p) {
+    // Way 1 :
+    // int x = 0, y = 0;
+    // if (p != nullptr) {
+    //     x = count_nodes(p->left_child);
+    //     y = count_nodes(p->right_child);
+
+    //     if (p->left_child && p->right_child) {
+    //         return x + y + 1;
+    //     } else {
+    //         return x + y;
+    //     }
+    // }
+
+    // Way 2
+
+    if (p == nullptr) {
+        return 0;
+    }
+
+    if (!p->left_child && !p->right_child) {
+        return count_nodes(p->left_child) + count_nodes(p->right_child) + 1;
+    }
+    return count_nodes(p->left_child) + count_nodes(p->right_child);
+}
+
+int Tree::height(Node *p) {
+    int x = 0, y = 0;
+    if (p == 0) {
+        return 0;
+    }
+
+    if (p != nullptr) {
+        x = height(p->left_child);
+        y = height(p->right_child);
+
+        if (x > y) {
+            return x + 1;
+        } else {
+            return y + 1;
+        }
+    }
+
+    return 0;
+}
+
+int Tree::sum_of_nodes(Node *p) {
+    int x = 0, y = 0;
+    if (p != nullptr) {
+        x = sum_of_nodes(p->left_child);
+        y = sum_of_nodes(p->right_child);
+
+        return x + y + p->data;
+    }
+
+    return 0;
+}
+
+int Tree::count_leaf_node(Node *p) {
+    int x = 0, y = 0;
+    if (p != nullptr) {
+        x = count_leaf_node(p->left_child);
+        y = count_leaf_node(p->right_child);
+
+        /**
+         * If the nodes' left-child as well as right-child is null, then we can count it as null-nodes or leaf nodes
+         * Means a node with degree(0), means no child.
+         *          ----- Here is the condition -----
+         */
+        if (p->left_child == nullptr && p->right_child == nullptr) {
+            return x + y + 1;
+        } else {
+            return x + y;
+        }
+    }
+}
+
+int Tree::count_non_leaf_node(Node *p) {
+    int x = 0, y = 0;
+    if (p != nullptr) {
+        x = count_non_leaf_node(p->left_child);
+        y = count_non_leaf_node(p->right_child);
+
+        /**
+         * If the node have both the child then we can count it as non-leaf nodes or the node which have degree(2) .
+         *              This is a node with degree(2).
+         * 
+         *          ----- Here is the condition -----
+         */
+        if (p->left_child != nullptr && p->right_child != nullptr) {
+            return x + y + 1;
+        } else {
+            return x + y;
+        }
+    }
+
+    return 0;
+}
+
+/**
+ * we can also count the no of nodes if a node have one children as well as 2 children
+ * means a node a have degree(1) and degree(2) . All the internal nodes were count in this .
+ *          ---- Here is the condition ----
+ *      if (p->left_child || p->right_child) {
+ *          return x + y + 1;
+ *      } else {
+ *          x + y;
+ *      }
+ */
+
+/**
+ * We can also count the no of nodes which have degree(1), means only one child
+ *      ----- Here is the condition -----
+ *      if ((p->left_child != nullptr && p->right_child == nullptr) || (p->left_child == nullptr && p->right_child != nullptr)) {
+ *          return x + y + 1;
+ *      } else {
+ *          x + y;
+ *      }
+ * 
+ *      We can enhance the operation using XOR(^) operation
+ *      Here is the operation 
+ * 
+ *      if (p->left_child != nullptr ^ p->right_child != nullptr) {
+ *          return x + y + 1;
+ *      }
+ */
+
+
 
 int main() {
     Tree t;
@@ -146,5 +280,9 @@ int main() {
     cout << "Inorder Traversal: ";
     t.iterative_postorder(t.root);
     cout << endl;
+    cout << "The number of nodes in the tree is : " << t.count_nodes(t.root) << endl;
+    cout << "The height of the tree is : " << t.height(t.root) << endl;
+    cout << "Sum of the nodes in the tree is : "<< t.sum_of_nodes(t.root) << endl;
+    count << "Count the no of Leaf nodes in the tree : " << t.count_leaf_node(t.root) << endl;
     return 0;
 }
